@@ -38,24 +38,40 @@ module.exports = function (app) {
         var match = 0;
 
         for(var i =0; i < friendsList.length; i++) {
+            
             var diff = 0;
-            for(var j = 0; j < userScores; j++) {
+            for(var j = 0; j < userScores.length; j++) {
                 diff += (Math.abs(friendsList[i].scores[j] - userScores[j]));
+                console.log(diff);
             }
+            
             scoresArray.push(diff)
         }
 
-        for(var i =0; i < scoresArray.length; i++) {
-            if(scoresArray[i] <= scoresArray[match]) {
-                match = i
-            }
-        }
+        console.log(scoresArray);
+        var match = indexOfSmallest(scoresArray);
+        
+        var matchFound = friendsList[match];
+        friendsList.push(req.body);
+        res.json(matchFound );
+        
+        // for(var i =0; i < scoresArray.length; i++) {
+        //     if(scoresArray[i] <= scoresArray[match]) {
+        //         match = i
+        //     }
+        // }
 
-        var matchFound = friendsList[match]
+        // var matchFound = friendsList[match]
         
 
-        friendsList.push(matchFound);
-        res.json(matchFound );
+        // friendsList.push(req.body);
+        // res.json(matchFound );
     });
 };
-
+function indexOfSmallest(a) {
+    var lowest = 0;
+    for (var i = 1; i < a.length; i++) {
+     if (a[i] < a[lowest]) lowest = i;
+    }
+    return lowest;
+   }
